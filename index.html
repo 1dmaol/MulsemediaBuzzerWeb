@@ -14,45 +14,25 @@
         <h3 class="display-4">Mulsemedia Buzzer Controller </h3>
         <hr>
         <h6 class="display-6">Duration: </h6>
-        <input class="lead" id="duration" type="text" value="5" placeholder="5">
-        <h6 class="lead p-2">
-            Lolin32
-        </h6>
-        <div class="my-2 fzmenu" id="collapseLolin">
-            <div class="justify-content-center d-flex flex-row">
-                <button class="btn btn-primary m-1 w-25" onclick="callLolinVibration(0,0)">60hz 0db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callLolinVibration(0,1)">60hz -20db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callLolinVibration(0,2)">60hz -40db</button>
-            </div>
-            <div class="justify-content-center d-flex flex-row">
-                <button class="btn btn-primary m-1 w-25" onclick="callLolinVibration(1,0)">70hz 0db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callLolinVibration(1,1)">70hz -20db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callLolinVibration(1,2)">70hz -40db</button>
-            </div>
-            <div class="justify-content-center d-flex flex-row">
-                <button class="btn btn-primary m-1 w-25" onclick="callLolinVibration(2,0)">80hz 0db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callLolinVibration(2,1)">80hz -20db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callLolinVibration(2,2)">80hz -40db</button>
-            </div>
+        <input class="lead" id="duration" type="text" value="5" placeholder="5">	
+        <h6 class="display-6">Gain: </h6>
+        <div id="volume">
+            0<input id="gain" type="range" min="0" max="10" value="10" step="1">1
         </div>
-        <h6 class="lead p-2">
-            Esp32
-        </h6>
+        <h6 class="display-6">Sound: </h6>
         <div class="my-2 fzmenu" id="collapseEsp">
             <div class="justify-content-center d-flex flex-row">
-                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(0,0)">30hz 0db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(0,1)">30hz -20db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(0,2)">30hz -40db</button>
+                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(0)">30hz 0db</button>
+                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(1)">35hz 0db</button>
+                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(2)">40hz 0db</button>
             </div>
             <div class="justify-content-center d-flex flex-row">
-                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(1,0)">40hz 0db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(1,1)">40hz -20db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(1,2)">40hz -40db</button>
+                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(3)">45hz 0db</button>
+                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(4)">50hz 0db</button>
+                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(5)">55hz 0db</button>
             </div>
             <div class="justify-content-center d-flex flex-row">
-                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(2,0)">50hz 0db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(2,1)">50hz -20db</button>
-                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(2,2)">50hz -40db</button>
+                <button class="btn btn-primary m-1 w-25" onclick="callEspVibration(6)">60hz 0db</button>
             </div>
         </div>
         <div class="p-2">
@@ -62,20 +42,12 @@
 </body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script>
-    function callEspVibration(fz, amp) {
+    function callEspVibration(fz) {
         document.getElementById('log').innerHTML = "Pending..."
         document.getElementsByClassName('fzmenu').hidden = true
-        $.get("http://192.168.0.107/vibration?args=" + document.getElementById('duration').value + "," + fz + "," + amp + ")",
-            function (data, status) {
-                document.getElementsByClassName('fzmenu').hidden = false
-                document.getElementById('log').innerHTML = status
-                console.log(data);
-            });
-    };
-    function callLolinVibration(fz, amp) {
-        document.getElementById('log').innerHTML = "Pending..."
-        document.getElementsByClassName('fzmenu').hidden = true
-        $.get("http://192.168.0.111/vibration?args=" + document.getElementById('duration').value + "," + fz + "," + amp + ")",
+        amp = document.getElementById('gain').value
+        dur = document.getElementById('duration').value
+        $.get("http://192.168.0.111/vibration?args=" + dur + "," + fz + "," + amp + ")",
             function (data, status) {
                 document.getElementsByClassName('fzmenu').hidden = false
                 document.getElementById('log').innerHTML = status
